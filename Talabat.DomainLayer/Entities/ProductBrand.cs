@@ -8,5 +8,5 @@ namespace Talabat.DomainLayer.Entities;
 
 public class ProductBrand : EntityBase
 {
-	string Name { get; set; }
+	public string Name { get; set; }
 }

@@ -8,6 +8,7 @@ public class Program
 {
 	public static void Main(string[] args)
 	{
+		#region Configure Services 
 		var builder = WebApplication.CreateBuilder(args);
 
 		// Add services to the container.
@@ -19,10 +20,28 @@ public class Program
 		builder.Services.AddDbContext<StoreContext>(options =>
 		{
 			options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-		});
+		}); 
+		#endregion
 
 		var app = builder.Build();
 
+		#region Update Database (Apply All migrations, if found)
+		using var scope = app.Services.CreateScope();
+		var services = scope.ServiceProvider;
+		var context = services.GetRequiredService<StoreContext>();
+		var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+		try 
+		{ 
+			context.Database.Migrate();
+		}
+		catch (Exception ex)
+		{
+			var logger = loggerFactory.CreateLogger<Program>();
+			logger.LogError(ex, "An error occurred during migration");
+		}
+		#endregion
+
+		#region Configure Pipelines
 		// Configure the HTTP request pipeline.
 		if (app.Environment.IsDevelopment())
 		{
@@ -35,7 +54,8 @@ public class Program
 		app.UseAuthorization();
 
 
-		app.MapControllers();
+		app.MapControllers(); 
+		#endregion
 
 		app.Run();
 	}
