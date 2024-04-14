@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Talabat.DomainLayer\Talabat.DomainLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\DataSeed\" />
+  </ItemGroup>
+
 </Project>

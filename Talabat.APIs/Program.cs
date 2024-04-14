@@ -6,7 +6,7 @@ namespace Talabat.APIs;
 
 public class Program
 {
-	public static void Main(string[] args)
+	public static async Task Main(string[] args)
 	{
 		#region Configure Services 
 		var builder = WebApplication.CreateBuilder(args);
@@ -28,8 +28,10 @@ public class Program
 		#region Update Database (Apply All migrations, if found)
 		using var scope = app.Services.CreateScope();
 		var services = scope.ServiceProvider;
+
 		var context = services.GetRequiredService<StoreContext>();
 		var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+		
 		try 
 		{ 
 			context.Database.Migrate();
@@ -39,6 +41,7 @@ public class Program
 			var logger = loggerFactory.CreateLogger<Program>();
 			logger.LogError(ex, "An error occurred during migration");
 		}
+		await StoreContextSeed.SeedAsync(context); // Static Class , Seed Data
 		#endregion
 
 		#region Configure Pipelines

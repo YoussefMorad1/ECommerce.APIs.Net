@@ -12,9 +12,9 @@ namespace Talabat.Repository.Data;
 public class StoreContext : DbContext
 {
 	public StoreContext(DbContextOptions<StoreContext> options) : base(options) {	}
-	DbSet<Product> Products { get; set; }
-	DbSet<ProductType> ProductTypes { get; set; }
-	DbSet<ProductBrand> ProductBrands { get; set; }
+	public DbSet<Product> Products { get; set; }
+	public DbSet<ProductType> ProductTypes { get; set; }
+	public DbSet<ProductBrand> ProductBrands { get; set; }
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
