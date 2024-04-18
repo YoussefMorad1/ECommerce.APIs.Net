@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using Talabat.APIs.Mappers;
 using Talabat.DomainLayer.Repositories;
 using Talabat.Repository;
 using Talabat.Repository.Data;
@@ -23,7 +24,8 @@ public class Program
 		{
 			options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 		}); 
-		builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+		builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); 
+		builder.Services.AddAutoMapper(typeof(MappingProfiles));
 		#endregion
 
 		var app = builder.Build();
@@ -59,6 +61,7 @@ public class Program
 
 		app.UseAuthorization();
 
+		app.UseStaticFiles();
 
 		app.MapControllers(); 
 		#endregion
