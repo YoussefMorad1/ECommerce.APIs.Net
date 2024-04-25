@@ -25,6 +25,8 @@ public class ProductsController : APIBaseController
 		return Ok(mappedProducts);
 	}
 	[HttpGet("{id}")]
+	[ProducesResponseType(typeof(ProductToReturnDTO), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	public async Task<ActionResult<Product>> GetProductById(int id)
 	{
 		var product = await productsRepo.GetByIdAsyncWithSpecAsync(new ProductWithBrandAndTypeSpecifications(id));

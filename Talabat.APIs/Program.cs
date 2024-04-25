@@ -24,8 +24,7 @@ public class Program
 		{
 			options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 		}); 
-		builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); 
-		builder.Services.AddAutoMapper(typeof(MappingProfiles));
+
 		#endregion
 
 		var app = builder.Build();
